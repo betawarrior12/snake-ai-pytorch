@@ -68,11 +68,11 @@ class SnakeGameAI:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        
+
         # 2. move
         self._move(action) # update the head
         self.snake.insert(0, self.head)
-        
+
         # 3. check if game over
         reward = 0
         game_over = False
@@ -88,7 +88,7 @@ class SnakeGameAI:
             self._place_food()
         else:
             self.snake.pop()
-        
+
         # 5. update ui and clock
         self._update_ui()
         self.clock.tick(SPEED)
@@ -103,10 +103,7 @@ class SnakeGameAI:
         if pt.x > self.w - BLOCK_SIZE or pt.x < 0 or pt.y > self.h - BLOCK_SIZE or pt.y < 0:
             return True
         # hits itself
-        if pt in self.snake[1:]:
-            return True
-
-        return False
+        return pt in self.snake[1:]
 
 
     def _update_ui(self):
@@ -118,7 +115,7 @@ class SnakeGameAI:
 
         pygame.draw.rect(self.display, RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
 
-        text = font.render("Score: " + str(self.score), True, WHITE)
+        text = font.render(f"Score: {str(self.score)}", True, WHITE)
         self.display.blit(text, [0, 0])
         pygame.display.flip()
 
